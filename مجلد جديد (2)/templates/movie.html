@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">{{ media.title if media.title else media.name }} - Sy-Best Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        body { 
+            background-color: #0c0c0c; 
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            direction: rtl; 
+            overflow-x: hidden;
+            padding-top: 85px !important;
+        }
+        
+        /* تأثير الخلفية الضبابية السينمائية */
+        .backdrop-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-size: cover;
+            background-position: center top;
+            filter: blur(40px) brightness(0.2);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        /* تصميم البار الاحترافي الجديد الشفاف والسينمائي */
+        .main-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .nav-right, .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-logo {
+            color: #e50914;
+            font-weight: bold;
+            font-size: 28px;
+            text-decoration: none;
+            text-shadow: 0 0 12px rgba(229, 9, 20, 0.35);
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+            white-space: nowrap;
+        }
+        .nav-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-item {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease;
+            white-space: nowrap;
+        }
+        .nav-item:hover {
+            color: #fff;
+        }
+
+        .nav-item-about {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .nav-item-about:hover { 
+            color: #fff; 
+        }
+
+        .user-profile-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        /* ستايلات أزرار الـ VIP داخل صفحة العرض المتناسقة */
+        .btn-vip-nav {
+            color: #000;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffb300, #fcc200);
+            padding: 6px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(255, 179, 0, 0.3);
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-vip-nav:hover {
+            background: linear-gradient(45deg, #fcc200, #ffb300);
+            transform: translateY(-1px);
+        }
+        .btn-vip-nav-active {
+            background: linear-gradient(45deg, #00e676, #00b0ff);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 230, 118, 0.3);
+        }
+        .btn-vip-nav-pending {
+            background: linear-gradient(45deg, #ff9100, #ff3d00);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(255, 61, 0, 0.3);
+        }
+
+        .nav-btn {
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-logout-nav {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .btn-logout-nav:hover {
+            background: #e50914;
+            border-color: #e50914;
+            box-shadow: 0 0 12px rgba(229, 9, 20, 0.4);
+        }
+
+        .btn-login-nav {
+            background: #e50914;
+            color: #fff;
+            border: 1px solid #e50914;
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.2);
+        }
+        .btn-login-nav:hover {
+            background: #b80710;
+            border-color: #b80710;
+        }
+        
+        /* بقية تنسيقات الصفحة الأساسية دون تعديل */
+        .video-container { max-width: 1100px; margin: 30px auto; padding: 0 20px; box-sizing: border-box; }
+        
+        .media-details { 
+            background: rgba(20, 20, 20, 0.75); 
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 12px; 
+            padding: 25px; 
+            margin-bottom: 25px; 
+            display: flex; 
+            gap: 25px; 
+            align-items: center; 
+            text-align: right;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .media-meta-img { width: 120px; height: 180px; border-radius: 8px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .media-text-box { flex-grow: 1; }
+        .media-text-box h1 { margin: 0 0 8px 0; font-size: 28px; font-weight: bold; color: #fff; }
+        
+        .vip-status-bar { background: linear-gradient(90deg, rgba(229,9,20,0.15), rgba(0,0,0,0.4)); border: 1px solid rgba(229,9,20,0.3); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; gap: 15px; flex-wrap: wrap; }
+        .vip-msg { color: #eee; font-size: 14px; text-align: right; }
+        .vip-msg b { color: #fff; }
+        .current-badge { font-size: 14px; white-space: nowrap; }
+        
+        .player-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05); }
+        .player-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .paywall-box { background: #000; border: 2px dashed #ffc107; border-radius: 12px; padding: 50px 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
+        .paywall-box h2 { color: #ffc107; font-size: 26px; margin-bottom: 15px; }
+        .paywall-box p { color: #ccc; font-size: 16px; margin-bottom: 25px; line-height: 1.6; }
+        
+        .btn-pay { background: #ffc107; color: #000; font-weight: bold; padding: 12px 35px; border-radius: 6px; text-decoration: none; font-size: 15px; transition: 0.2s; display: inline-block; box-shadow: 0 4px 12px rgba(255,193,7,0.3); }
+        .btn-pay:hover { background: #e0a800; transform: translateY(-2px); }
+        
+        .tv-controls { background: rgba(15,15,15,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; margin-top: 30px; text-align: right; }
+        .tv-controls h3 { margin: 0 0 15px 0; font-size: 18px; color: #fff; display: flex; align-items: center; gap: 8px; }
+        
+        .seasons-bar { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); -webkit-overflow-scrolling: touch; }
+        .btn-season { background: #222; color: #ccc; padding: 8px 18px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.2s; white-space: nowrap; }
+        .btn-season.active { background: #e50914; color: #fff; font-weight: bold; }
+        
+        .episodes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        @media (min-width: 576px) {
+            .episodes-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        }
+        .episode-card { background: #18181c; border-radius: 8px; overflow: hidden; text-decoration: none; border: 1px solid rgba(255,255,255,0.03); transition: 0.2s; display: flex; flex-direction: column; }
+        .episode-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.15); background: #202026; }
+        .episode-card.active { border-color: #e50914; background: rgba(229,9,20,0.1); }
+        
+        .episode-img-wrapper { position: relative; width: 100%; padding-top: 56.25%; background: #101012; }
+        .episode-img-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .episode-info { padding: 10px; text-align: right; }
+        .episode-num { font-size: 11px; color: #e50914; font-weight: bold; margin-bottom: 2px; }
+        .episode-title { font-size: 13px; color: #fff; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .servers-section { margin-top: 30px; text-align: right; }
+        .servers-section h3 { margin: 0 0 15px 0; font-size: 17px; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .servers-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .btn-server { background: #1c1c22; color: #ccc; border: 1px solid #2d2d35; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .btn-server:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .btn-server.active { background: #fff; color: #000; border-color: #fff; font-weight: bold; }
+        
+        .btn-report { background: rgba(26,26,26,0.8); color: #ffc107; font-weight: bold; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 12px; border: 1px solid rgba(255,193,7,0.4); transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-report:hover { background: #ffc107; color: #000; border-color: #ffc107; }
+
+        /* الشاشات الصغيرة والتوافقية مع الهواتف الذكية */
+        @media (max-width: 991px) {
+            body { padding-top: 120px !important; }
+            .nav-container { flex-direction: column; gap: 12px; padding: 0 15px; text-align: center; }
+            .nav-right { width: 100%; justify-content: center; }
+            .nav-left { width: 100%; justify-content: center; gap: 12px; }
+            .media-details { flex-direction: column; text-align: center; padding: 15px; }
+            .media-meta-img { width: 110px; height: 165px; }
+            .media-text-box h1 { font-size: 22px; }
+        }
+        @media (max-width: 480px) {
+            body { padding-top: 140px !important; }
+            .nav-links { display: none; } /* إخفاء الروابط المكررة لزيادة المساحة على الشاشات الصغيرة جداً */
+            .user-profile-status { justify-content: center; gap: 8px; }
+            .btn-vip-nav, .nav-btn { font-size: 12px; padding: 6px 12px; }
+            .vip-status-bar { justify-content: center; text-align: center; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    {% if media.backdrop_path %}
+        <div class="backdrop-bg" style="background-image: url('https://image.tmdb.org/t/p/w1280{{ media.backdrop_path }}');"></div>
+    {% endif %}
+
+    <header class="main-navbar">
+        <div class="nav-container">
+            <div class="nav-right">
+                <a href="/" class="nav-logo">Sy-Best</a>
+                <div class="nav-links">
+                    <a href="/" class="nav-item"><i class="fa-solid fa-house"></i> الرئيسية</a>
+                    <a href="/about" class="nav-item-about"><i class="fa-solid fa-circle-info"></i> من نحن</a>
+                </div>
+            </div>
+            
+            <div class="nav-left">
+                {% if current_user.is_authenticated %}
+                    <a href="/feedback" class="nav-item" style="font-size:13px;"><i class="fa-solid fa-comment-dots"></i> أرسل رأيك</a>
+                    
+                    <div class="user-profile-status">
+                        {% if vip_status == 'admin' %}
+                            <button class="btn-vip-nav btn-vip-nav-active" onclick="showVipStatus('admin')"><i class="fa-solid fa-user-shield"></i> لوحة الإدارة</button>
+                            <a href="/admin" class="nav-btn btn-login-nav" style="padding: 5px 12px; font-size:12px;"><i class="fa-solid fa-gear"></i> التحكم</a>
+                        {% elif vip_status == 'trial' %}
+                            <button class="btn-vip-nav" onclick="showVipStatus('trial')"><i class="fa-solid fa-clock"></i> فترة تجريبية</button>
+                        {% elif vip_status == 'active' %}
+                            <button class="btn-vip-nav btn-vip-nav-active" onclick="showVipStatus('active')"><i class="fa-solid fa-crown"></i> عضوية VIP</button>
+                        {% elif vip_status == 'pending' %}
+                            <button class="btn-vip-nav btn-vip-nav-pending" onclick="showVipStatus('pending')"><i class="fa-solid fa-spinner fa-spin"></i> قيد المراجعة</button>
+                        {% else %}
+                            <a href="/pay" class="btn-vip-nav"><i class="fa-solid fa-bolt"></i> تفعيل VIP</a>
+                        {% endif %}
+                        
+                        <a href="/logout" class="nav-btn btn-logout-nav"><i class="fa-solid fa-arrow-right-from-bracket"></i> خروج</a>
+                    </div>
+                {% else %}
+                    <a href="/login" class="nav-btn btn-login-nav">تسجيل الدخول</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="video-container">
+        <div class="media-details">
+            {% if media.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w300{{ media.poster_path }}" class="media-meta-img">
+            {% endif %}
+            <div class="media-text-box">
+                <h1 id="mediaMainTitle">{{ media.title if media.title else media.name }}</h1>
+                <p style="color: #ffc107; font-weight: bold; margin: 5px 0; font-size: 15px;"><i class="fa-solid fa-star"></i> {{ "%.1f"|format(media.vote_average) if media.vote_average else '0.0' }}</p>
+                <p style="color: #ddd; font-size: 14px; margin: 10px 0 0 0; line-height: 1.6;">{{ media.overview if media.overview else 'لا يوجد وصف متوفر حالياً لهذا العمل.' }}</p>
+            </div>
+        </div>
+
+        {% if current_user.is_authenticated and (vip_status == 'admin' or vip_status == 'active' or vip_status == 'trial') %}
+            <div class="vip-status-bar">
+                <div class="vip-msg">
+                    {% if vip_status == 'admin' %}
+                        <i class="fa-solid fa-user-shield"></i> حسابك بصلاحية: <b>مدير الموقع (VIP تلقائي)</b>
+                    {% elif vip_status == 'trial' %}
+                        <i class="fa-solid fa-gift"></i> أنت في: <b>الفترة التجريبية الـ VIP المجانية (24 ساعة)</b>
+                    {% else %}
+                        <i class="fa-solid fa-crown" style="color:#ffc107;"></i> اشتراكك: <b>VIP نشط ومميز ✨</b>
+                    {% endif %}
+                </div>
+                <div class="current-badge" id="currentPlayingBadge">
+                    جاري العرض: <b>السيرفر الرئيسي</b>
+                </div>
+            </div>
+
+            <div class="player-wrapper">
+                <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+            </div>
+
+            <div class="servers-section">
+                <h3><i class="fa-solid fa-layer-group"></i> سيرفرات المشاهدة الاحترافية</h3>
+                <div class="servers-grid">
+                    <button class="btn-server active" id="server1" onclick="switchServer('server1')"><i class="fa-solid fa-server"></i> سيرفر سريـع 1</button>
+                    <button class="btn-server" id="server2" onclick="switchServer('server2')"><i class="fa-solid fa-server"></i> سيرفر احتيـاطي 2</button>
+                    <button class="btn-server" id="server3" onclick="switchServer('server3')"><i class="fa-solid fa-server"></i> سيرفر جودات متعددة 3</button>
+                </div>
+            </div>
+        {% else %}
+            <div class="paywall-box">
+                <h2><i class="fa-solid fa-lock" style="font-size: 40px; margin-bottom: 15px; display: block;"></i> المحتوى مغلق للحسابات المجانية!</h2>
+                <p>عذراً، لم تعد تمتلك فترة تجريبية صالحة أو اشتراك VIP نشط لمشاهدة هذا العمل السينمائي.<br>يرجى ترقية حسابك أو إرسال طلب تفعيل للاستمتاع بمشاهدة بدون إعلانات وبأعلى جودة.</p>
+                <a href="/pay" class="btn-pay"><i class="fa-solid fa-gem"></i> اشترك الآن بـ VIP وفك القفل</a>
+            </div>
+        {% endif %}
+
+        {% if is_tv and current_user.is_authenticated and (vip_status == 'admin' or vip_status == 'active' or vip_status == 'trial') %}
+            <div class="tv-controls">
+                <h3><i class="fa-solid fa-folder-open"></i> مواسم المسلسل</h3>
+                <div class="seasons-bar">
+                    {% for s in total_seasons %}
+                        <a href="/tv/{{ media_id }}/{{ s }}/1" class="btn-season {% if s == current_season %}active{% endif %}">
+                            الموسم {{ s }}
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <h3><i class="fa-solid fa-circle-play"></i> حلقات الموسم {{ current_season }}</h3>
+                <div class="episodes-grid">
+                    {% for ep in episodes_detailed %}
+                        <a href="/tv/{{ media_id }}/{{ current_season }}/{{ ep.episode_number }}" class="episode-card {% if ep.episode_number == current_episode %}active{% endif %}">
+                            <div class="episode-img-wrapper">
+                                {% if ep.still_path %}
+                                    <img src="https://image.tmdb.org/t/p/w300{{ ep.still_path }}" loading="lazy">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/300x169?text=Sy-Best" loading="lazy">
+                                {% endif %}
+                            </div>
+                            <div class="episode-info">
+                                <div class="episode-num">الحلقة {{ ep.episode_number }}</div>
+                                <div class="episode-title class-ep-title-js" data-title-ar="{{ ep.name }}">{{ ep.name }}</div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="report-box" style="margin-top: 20px;">
+            <a href="https://t.me/TMX16" target="_blank" class="btn-report">
+                <i class="fa-solid fa-triangle-exclamation"></i> هل واجهتك شاشة سوداء؟ أبلغ الدعم الفني فوراً
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function showVipStatus(status) {
+            let title = '';
+            let icon = 'info';
+            let htmlText = '';
+            
+            if (status === 'admin') {
+                title = 'حساب الإدارة 👑';
+                icon = 'success';
+                htmlText = 'أنت تمتلك صلاحيات مدير الموقع بالكامل. حسابك مفعل بصلاحية VIP دائمة وتلقائية.';
+            } else if (status === 'trial') {
+                title = 'الفترة التجريبية المجانية 🎁';
+                icon = 'clock';
+                htmlText = 'أنت تستمتع حالياً بميزات الـ VIP مجاناً!<br><br>الوقت المتبقي على انتهاء فترتك التجريبية هو:<br><b style="color:#ffb300; font-size:18px;">{{ vip_time_left.hours }} ساعة و {{ vip_time_left.minutes }} دقيقة</b>.';
+            } else if (status === 'active') {
+                title = 'اشتراك VIP نشط 🔥';
+                icon = 'success';
+                htmlText = 'شكراً لثقتك بنا! اشتراكك مفعل وصالح لمشاهدة كافة السيرفرات الحصرية.<br><br>الوقت المتبقي على انتهاء باقتك:<br><b style="color:#00e676; font-size:18px;">{{ vip_time_left.days }} يوم و {{ vip_time_left.hours }} ساعة</b>.';
+            } else if (status === 'pending') {
+                title = 'طلبك قيد المراجعة ⏳';
+                icon = 'warning';
+                htmlText = 'تم استلام بيانات تحويل الحوالة الخاص بك بنجاح، ويقوم فريق الدعم الفني بمطابقتها الآن لتفعيل حسابك خلال دقائق.';
+            }
+
+            Swal.fire({
+                title: title,
+                html: htmlText,
+                icon: icon,
+                background: '#16161a',
+                color: '#fff',
+                confirmButtonText: 'حسناً ومفهوم',
+                confirmButtonColor: '#e50914'
+            });
+        }
+
+        const isTv = {{ 'true' if is_tv else 'false' }};
+        const mediaId = "{{ media_id }}";
+        const seasonNum = "{{ current_season if is_tv else 1 }}";
+        const episodeNum = "{{ current_episode if is_tv else 1 }}";
+        const originalLang = "{{ media.original_language }}";
+
+        function switchServer(serverKey) {
+            const player = document.getElementById('videoPlayer');
+            const badge = document.getElementById('currentPlayingBadge');
+            if(!player) return;
+
+            document.querySelectorAll('.btn-server').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(serverKey);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            let targetUrl = '';
+            
+            if (serverKey === 'server1') {
+                // تم تصحيح مسار السيرفر الأول ليدعم التضمين ويتجاوز مشكلة X-Frame-Options
+                targetUrl = isTv ? `https://vidsrc.me/embed/tv/${mediaId}/${seasonNum}/${episodeNum}` : `https://vidsrc.me/embed/movie/${mediaId}`;
+            } else if (serverKey === 'server2') {
+                targetUrl = isTv ? `https://vidsrc.pro/embed/tv/${mediaId}/${seasonNum}/${episodeNum}` : `https://vidsrc.pro/embed/movie/${mediaId}`;
+            } else if (serverKey === 'server3') {
+                targetUrl = isTv ? `https://embed.su/embed/tv/${mediaId}/${seasonNum}/${episodeNum}` : `https://embed.su/embed/movie/${mediaId}`;
+            }
+            
+            player.src = targetUrl;
+            if(badge) {
+                const names = { 'server1': 'السيرفر الرئيسي 1', 'server2': 'السيرفر الاحتياطي 2', 'server3': 'سيرفر الجودات المتعددة 3' };
+                badge.innerHTML = `جاري العرض: <b>${names[serverKey]}</b>`;
+            }
+        }
+
+        window.onload = () => {
+            const mainTitleElement = document.getElementById('mediaMainTitle');
+            const pageTitleElement = document.getElementById('pageTitle');
+            
+            let finalTitle = mainTitleElement ? mainTitleElement.innerText : '';
+            if (originalLang !== 'tr' && originalLang !== 'ar') {
+                const origName = "{{ media.original_title if media.original_title else media.original_name }}";
+                if (origName && origName !== 'None' && origName !== '') finalTitle = origName;
+            }
+            if (mainTitleElement) mainTitleElement.innerText = finalTitle;
+            if (pageTitleElement) pageTitleElement.innerText = finalTitle + " - Sy-Best Player";
+            
+            switchServer('server1');
+        };
+    </script>
+</body>
+</html>

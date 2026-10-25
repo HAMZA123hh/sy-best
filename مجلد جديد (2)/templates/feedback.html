@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أرسل رأيك - Sy-Best</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body { 
+            /* خلفية سينمائية فخمة وعميقة تناسب ثيم الموقع الجديد */
+            background: linear-gradient(rgba(10, 10, 13, 0.8), rgba(5, 5, 8, 0.95)), 
+                        url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* شعار المنصة العلوي بتوهج نيوني أحمر */
+        .brand-logo {
+            color: #e50914;
+            font-weight: 900;
+            font-size: 38px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+        .brand-logo:hover { transform: scale(1.05); color: #fff; }
+
+        /* صندوق الملاحظات بتقنية Glassmorphism (الزجاج المصقول) */
+        .box { 
+            background: rgba(20, 20, 25, 0.55) !important; 
+            backdrop-filter: blur(20px); /* تأثير التغبيش الزجاجي */
+            -webkit-backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 550px; 
+            margin: 0 auto; 
+            padding: 45px 40px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(229, 9, 20, 0.3) !important; /* حدود حمراء رقيقة مشعة */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+        
+        .box h2 {
+            color: #fff; 
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .box h2 i { color: #e50914; text-shadow: 0 0 10px rgba(229, 9, 20, 0.5); }
+
+        .box p {
+            color: #b3b3b3; 
+            font-size: 15px; 
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 15px;
+            color: #e0e0e0;
+            display: block;
+            margin-bottom: 10px;
+            padding-right: 5px;
+        }
+
+        /* تحسين صندوق الكتابة ليصبح شفافاً ومتناسقاً */
+        textarea { 
+            width: 100%; 
+            height: 150px; 
+            padding: 16px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #fff; 
+            border-radius: 12px; 
+            font-family: inherit; 
+            font-size: 15px; 
+            resize: none; 
+            outline: none;
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+        
+        textarea:focus { 
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #e50914;
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+        }
+
+        /* زر الإرسال بتأثير التوهج النيوني */
+        button { 
+            background: #e50914; 
+            color: #fff; 
+            border: none; 
+            width: 100%; 
+            padding: 16px; 
+            font-weight: 800; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-size: 17px; 
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.35);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        button:hover { 
+            background: #c40812; 
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
+            transform: translateY(-2px);
+        }
+        button:active { transform: scale(0.98); }
+
+        /* رابط العودة الأنيق */
+        .back-link { 
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 30px; 
+            color: #888; 
+            text-decoration: none; 
+            font-size: 14px; 
+            transition: all 0.2s;
+        }
+        .back-link:hover { 
+            color: #fff; 
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        .back-link i { font-size: 12px; }
+
+        /* تنسيق رسائل التنبيه (Flash Messages) داخل الصندوق */
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="brand-logo">Sy-Best</a>
+
+    <div class="box">
+        <h2><i class="fa-solid fa-headset"></i> Sy-Best Feedback Hub</h2>
+        <p>لديك طلب إضافة محتوى، اقتراح لتطوير المنصة، أو واجهت مشكلة تقنية؟ نحن هنا للاستماع إليك دائماً.</p>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="padding: 12px; margin-bottom: 20px; border-radius: 8px; font-size: 14px; text-align: right;
+                        {% if category == 'success' %} background-color: rgba(31, 177, 65, 0.15); color: #1fb141; border: 1px solid rgba(31, 177, 65, 0.3);
+                        {% else %} background-color: rgba(234, 56, 77, 0.15); color: #ea384d; border: 1px solid rgba(234, 56, 77, 0.3); {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label><i class="fa-solid fa-pen-to-square" style="color:#e50914; margin-left:5px;"></i> تفاصيل رسالتك:</label>
+                <textarea name="content" placeholder="مثال: يرجى توفير الموسم الخامس من مسلسل..." required></textarea>
+            </div>
+            <button type="submit"><i class="fa-solid fa-paper-plane" style="margin-left: 8px;"></i> إرسال الرسالة الآن</button>
+        </form>
+        
+        <a href="/" class="back-link">العودة للرئيسية <i class="fa-solid fa-chevron-left"></i></a>
+    </div>
+
+</body>
+</html>

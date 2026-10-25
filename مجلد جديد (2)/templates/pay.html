@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to VIP | Sy-Best</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #e50914; 
+            --gold: #ffd700; 
+            --bg: #0c0c0e; 
+            --card: rgba(255, 255, 255, 0.03); 
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        
+        body { 
+            background: linear-gradient(rgba(12, 12, 14, 0.85), rgba(8, 8, 10, 0.98)), 
+                        url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(20, 20, 24, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #fff, var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        /* خيارات الباقة */
+        .plan-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .plan-option {
+            background: var(--card);
+            border: 2px solid var(--border);
+            padding: 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .plan-option:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .plan-option.active {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+
+        .plan-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .plan-price {
+            font-size: 15px;
+            color: #b3b3b3;
+        }
+
+        .plan-price strong {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        /* خيارات وسيلة الدفع */
+        .method-selection {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .method-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .method-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .method-btn.active {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            font-weight: 700;
+        }
+
+        /* تفاصيل الدفع */
+        .payment-details {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #b3b3b3;
+            font-size: 15px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 16px;
+            user-select: all; /* يسهل على المستخدم نسخ الرقم بنقرة واحدة */
+        }
+
+        .info-value i {
+            margin-right: 8px;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        /* صورة الباركود */
+        .qr-container {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .qr-container img {
+            max-width: 160px;
+            border-radius: 12px;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        /* الحقول المخصصة لرفع البيانات */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 14px;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* تنسيق حقل رفع الملفات الاحترافي */
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-wrapper:hover {
+            border-color: var(--primary);
+            background: rgba(233, 9, 20, 0.02);
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-icon {
+            font-size: 30px;
+            color: #b3b3b3;
+            margin-bottom: 8px;
+        }
+
+        .file-upload-text {
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        .file-name-preview {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* زر الإرسال */
+        .btn-submit {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: #b80710;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .note-box {
+            background: rgba(255, 215, 0, 0.03);
+            border-right: 4px solid var(--gold);
+            padding: 15px;
+            border-radius: 4px 12px 12px 4px;
+            margin-top: 25px;
+            font-size: 13.5px;
+            color: #dcdcdc;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ترقية الحساب إلى VIP الملكي</h2>
+
+    <form action="/pay" method="POST" enctype="multipart/form-data">
+        
+        <input type="hidden" id="selected_plan" name="plan_type" value="monthly">
+        <input type="hidden" id="selected_method" name="method" value="Syriatel Cash">
+
+        <div class="plan-selection">
+            <div class="plan-option active" id="plan-monthly" onclick="selectPlan('monthly', '15,000')">
+                <span class="plan-title">الاشتراك الشهري</span>
+                <span class="plan-price"><strong id="price-monthly">15,000</strong> ل.س</span>
+            </div>
+            <div class="plan-option" id="plan-yearly" onclick="selectPlan('yearly', '150,000')">
+                <span class="plan-title">الاشتراك السنوي</span>
+                <span class="plan-price"><strong id="price-yearly">150,000</strong> ل.س</span>
+            </div>
+        </div>
+
+        <div class="method-selection">
+            <div class="method-btn active" id="btn-syriatel" onclick="selectMethod('Syriatel Cash')">
+                <i class="fa-solid fa-mobile-screen-button"></i> سيرياتيل كاش
+            </div>
+            <div class="method-btn" id="btn-cham" onclick="selectMethod('Cham Cash')">
+                <i class="fa-solid fa-wallet"></i> شام كاش
+            </div>
+        </div>
+
+        <div class="payment-details">
+            <div class="info-row">
+                <span class="info-label">المبلغ المطلوب شحنه:</span>
+                <span class="info-value" id="text-fee" style="color: var(--gold); font-weight: 700;">15,000 ل.س</span>
+            </div>
+            
+            <div id="row-syriatel" class="info-row">
+                <span class="info-label">التحويل إلى الرقم المعتمد:</span>
+                <span class="info-value">0988609965 <i class="fa-regular fa-copy" onclick="navigator.clipboard.writeText('0988609965')"></i></span>
+            </div>
+
+            <div id="row-cham" style="display: none;">
+                <div class="info-row">
+                    <span class="info-label">رقم محفظة شام كاش:</span>
+                    <span class="info-value" style="font-size: 13px;">b5e062255b573925c75bf8ca0784d3d8 <i class="fa-regular fa-copy" onclick="navigator.clipboard.writeText('b5e062255b573925c75bf8ca0784d3d8')"></i></span>
+                </div>
+                <div class="qr-container">
+                    <img src="static/cham_qr.jpg" alt="Cham Cash QR Code">
+                    <p style="font-size: 12px; color: #b3b3b3; margin-top: 5px; margin-bottom: 0;">يمكنك مسح الـ QR لإتمام الدفع السريع</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="transaction_number">رقم عملية التحويل الفني (الرقم المرجعي):</label>
+            <input type="text" id="transaction_number" name="transaction_id" class="form-control" placeholder="أدخل رقم العملية المذكور برسالة التأكيد" required>
+        </div>
+
+        <div class="form-group">
+            <label>صورة إيصال / رسالة الدفع الناجحة:</label>
+            <div class="file-upload-wrapper">
+                <div class="file-upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <div class="file-upload-text" id="upload-text">اضغط هنا أو قم بسحب وإفلات صورة الإيصال</div>
+                <input type="file" id="payment_screenshot" name="payment_screenshot" accept="image/*" onchange="displayFileName(this)" required>
+                <div class="file-name-preview" id="file-name-preview"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">تأكيد عملية التحويل وإرسال الطلب</button>
+    </form>
+
+    <div class="note-box">
+        💡 <b>ملاحظة المراجعة والتدقيق:</b> يرجى الاحتفاظ بلقطة شاشة لعملية التحويل الناجحة من تطبيق "أقرب إليك" أو تطبيق بنكك ورفعها بالخيار أعلاه، وسيقوم فريق الدعم الفني بمطابقة البيانات وتفعيل اشتراك الـ VIP الخاص بك يدوياً بشكل فوري.
+    </div>
+
+    <a href="/" class="back-link"><i class="fa-solid fa-chevron-right" style="font-size: 10px; margin-left: 3px;"></i> العودة للصفحة الرئيسية</a>
+</div>
+
+<script>
+    // دالة تبديل الباقة (شهري / سنوي)
+    function selectPlan(plan, feeText) {
+        document.getElementById('selected_plan').value = plan;
+        document.getElementById('plan-monthly').classList.toggle('active', plan === 'monthly');
+        document.getElementById('plan-yearly').classList.toggle('active', plan === 'yearly');
+        
+        // تحديث النص المعروض للتكلفة الإجمالية
+        document.getElementById('text-fee').innerText = feeText + ' ل.س';
+    }
+
+    // دالة تبديل وسيلة الدفع (سيرياتيل كاش / شام كاش)
+    function selectMethod(method) {
+        document.getElementById('selected_method').value = method;
+        document.getElementById('btn-syriatel').classList.toggle('active', method === 'Syriatel Cash');
+        document.getElementById('btn-cham').classList.toggle('active', method === 'Cham Cash');
+        
+        // إظهار وإخفاء الحقول والبيانات بناءً على الاختيار المباشر
+        document.getElementById('row-syriatel').style.display = (method === 'Syriatel Cash') ? 'flex' : 'none';
+        document.getElementById('row-cham').style.display = (method === 'Cham Cash') ? 'block' : 'none';
+    }
+
+    // دالة تجميل وعرض اسم الصورة المرفقة مباشرة للمستخدم بعد رفعها
+    function displayFileName(input) {
+        const previewText = document.getElementById('file-name-preview');
+        const uploadText = document.getElementById('upload-text');
+        if (input.files && input.files[0]) {
+            previewText.innerText = "تم اختيار ملف: " + input.files[0].name;
+            uploadText.innerText = "تغيير الصورة المختارة؟";
+        } else {
+            previewText.innerText = "";
+            uploadText.innerText = "اضغط هنا أو قم بسحب وإفلات صورة الإيصال";
+        }
+    }
+</script>
+</body>
+</html>

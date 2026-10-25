@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sy-Best | Control Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0c0c0e;
+            --bg-card: #16161a;
+            --primary: #e50914;
+            --primary-hover: #b80710;
+            --success: #1fb141;
+            --danger: #ea384d;
+            --warning: #f5a623;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a5;
+            --border-color: #242428;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            background: var(--bg-main); 
+            color: var(--text-main); 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 30px;
+            line-height: 1.6;
+        }
+
+        /* رأس الصفحة */
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+        
+        .header-title h1 {
+            color: var(--primary);
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .header-title p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .btn-back-home {
+            background: #1f1f23;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        .btn-back-home:hover {
+            background: #28282f;
+            border-color: #444;
+        }
+
+        /* الإشعارات */
+        .flash-msg {
+            padding: 14px 20px; 
+            margin-bottom: 25px; 
+            border-radius: 8px; 
+            color: #fff; 
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* كروت الإحصائيات الذكية */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; width: 4px; height: 100%;
+        }
+        .stat-card.total::before { background: #3b82f6; }
+        .stat-card.pending::before { background: var(--warning); }
+        .stat-card.feed::before { background: #00bcd4; }
+        .stat-card.vip::before { background: var(--success); }
+
+        .stat-title {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* الجداول والأقسام */
+        .section-title { 
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 15px; 
+            color: #fff; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            margin-bottom: 45px;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: right; }
+        
+        th, td { padding: 15px 20px; font-size: 14px; border-bottom: 1px solid var(--border-color); }
+        
+        th { 
+            background: #1c1c21; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.015); }
+
+        /* الأزرار التفاعلية */
+        .btn-action {
+            border: none; 
+            padding: 8px 14px; 
+            cursor: pointer; 
+            border-radius: 6px; 
+            font-weight: 600; 
+            font-size: 13px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-approve { background: rgba(31, 177, 65, 0.15); color: #32d74b; margin-left: 8px; }
+        .btn-approve:hover { background: var(--success); color: #fff; }
+        
+        .btn-reject { background: rgba(234, 56, 77, 0.15); color: #ff453a; }
+        .btn-reject:hover { background: var(--danger); color: #fff; }
+        
+        .btn-delete { background: rgba(229, 9, 20, 0.12); color: #ff3b30; border: 1px solid rgba(229, 9, 20, 0.2); }
+        .btn-delete:hover { background: var(--primary); color: #fff; border-color: transparent; }
+        
+        .btn-view-image { background: rgba(0, 188, 212, 0.15); color: #00bcd4; border: 1px solid rgba(0, 188, 212, 0.2); }
+        .btn-view-image:hover { background: #00bcd4; color: #fff; border-color: transparent; }
+
+        /* البادجات المضيئة المودرن */
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .badge-vip { background: rgba(31, 177, 65, 0.15); color: #32d74b; border: 1px solid rgba(31, 177, 65, 0.2); }
+        .badge-free { background: rgba(142, 142, 147, 0.15); color: #eaeaea; }
+        .badge-pending { background: rgba(245, 166, 35, 0.15); color: #ffb340; border: 1px solid rgba(245, 166, 35, 0.2); }
+        .badge-type { background: #26262b; padding: 4px 10px; border-radius: 6px; font-size: 12px; color: #00bcd4; border: 1px solid #3a3a42; }
+        
+        /* بادجات الخطط الجديدة سنوي وشهري */
+        .badge-plan-monthly { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+        .badge-plan-yearly { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-area">
+        <div class="header-title">
+            <h1>🛡️ Sy-Best Control Hub</h1>
+            <p>مرحباً بك في لوحة الإدارة العامة. يمكنك مراقبة الاشتراكات، الحوالات، وطلبات المحتوى الواردة من المستخدمين.</p>
+        </div>
+        <a href="/" class="btn-back-home">← العودة للرئيسية</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-msg" style="background: {% if category == 'success' %}var(--success){% else %}var(--danger){% endif %};">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <span class="stat-title">إجمالي المسجلين</span>
+            <span class="stat-value">{{ users|length }} مستخدم</span>
+        </div>
+        <div class="stat-card pending">
+            <span class="stat-title">طلبات دفع معلقة</span>
+            <span class="stat-value">{{ payments|length }} طلب</span>
+        </div>
+        <div class="stat-card feed">
+            <span class="stat-title">الشكاوى والطلبات</span>
+            <span class="stat-value">{{ feedbacks|length }} رسالة</span>
+        </div>
+        <div class="stat-card vip">
+            <span class="stat-title">أعضاء VIP الحالية</span>
+            <span class="stat-value">
+                {% set vip_count = namespace(value=0) %}
+                {% for u in users %}{% if u.subscription == 'vip' %}{% set vip_count.value = vip_count.value + 1 %}{% endif %}{% endfor %}
+                {{ vip_count.value }} عضو
+            </span>
+        </div>
+    </div>
+
+    <h2 class="section-title">📥 طلبات تفعيل الاشتراكات الواردة</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 15%;">اسم المستخدم</th>
+                    <th style="width: 12%;">الباقة</th>
+                    <th style="width: 13%;">طريقة التحويل</th>
+                    <th style="width: 20%;">رقم العملية (ID)</th>
+                    <th style="width: 15%;">صورة الإيصال</th>
+                    <th style="width: 25%; text-align: left;">الإجراء الإداري</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in payments %}
+                <tr>
+                    <td><b>{{ req.username or 'مستخدم غير معروف' }}</b></td>
+                    <td>
+                        {% if req.plan_type == 'yearly' %}
+                            <span class="badge badge-plan-yearly">📅 سنوي</span>
+                        {% else %}
+                            <span class="badge badge-plan-monthly">🌙 شهري</span>
+                        {% endif %}
+                    </td>
+                    <td><span style="color: #fff; font-weight: 600;">{{ req.method }}</span></td>
+                    <td style="color:var(--warning); font-family: monospace; font-weight:bold; font-size: 15px; letter-spacing: 0.5px;">{{ req.transaction_id }}</td>
+                    
+                    <td>
+                        {% if req.receipt_image %}
+                            <a href="{{ url_for('static', filename='uploads/receipts/' + req.receipt_image) }}" target="_blank" class="btn-action btn-view-image">
+                                🖼️ فتح الصورة
+                            </a>
+                        {% else %}
+                            <span style="color: var(--text-muted); font-size: 12px;">لم تُرفق صورة</span>
+                        {% endif %}
+                    </td>
+
+                    <td style="text-align: left;">
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="pay_id" value="{{ req.id }}">
+                            <button type="submit" name="action" value="approve_payment" class="btn-action btn-approve">✔ تفعيل VIP</button>
+                            <button type="submit" name="action" value="reject_payment" class="btn-action btn-reject" onclick="return confirm('هل أنت متأكد من رفض هذه الحوالة؟');">❌ رفض</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align:center; color: var(--text-muted); padding: 30px;">لا توجد أي طلبات تفعيل معلقة حالياً.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="section-title">📝 صندوق الشكاوى وطلبات الأفلام والمسلسلات</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 25%;">المرسل</th>
+                    <th style="width: 15%;">النوع</th>
+                    <th style="width: 40%;">نص الرسالة / المحتوى المطلوب</th>
+                    <th style="width: 15%;">تاريخ الإرسال</th>
+                    <th style="width: 5%; text-align: left;">إجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fb in feedbacks %}
+                <tr>
+                    <td><b>{{ fb.username or 'مستخدم غير معروف' }}</b> <span style="color:var(--text-muted); font-size:12px;">(ID: {{ fb.user_id }})</span></td>
+                    <td><span class="badge-type">{{ fb.message_type or 'عام' }}</span></td>
+                    <td style="color: #00bcd4; font-size: 14px; font-weight: 600; white-space: pre-wrap; word-break: break-word;">{{ fb.content }}</td>
+                    <td style="font-size: 13px; color: var(--text-muted);">
+                        {% if fb.date_created %}
+                            {{ fb.date_created.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            --
+                        {% endif %}
+                    </td>
+                    <td style="text-align: left;">
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="action" value="delete_feedback">
+                            <input type="hidden" name="feed_id" value="{{ fb.id }}">
+                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('هل أنت متأكد من أرشفة وحذف هذا الطلب نهائياً؟');">🗑️ تم</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" style="text-align:center; color: var(--text-muted); padding: 30px;">الصندوق فارغ، لم يتم تلقي شكاوى أو طلبات جديدة.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="section-title">👥 المستخدمين المسجلين وحالة الاشتراكات</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">المعرف</th>
+                    <th style="width: 25%;">اسم المستخدم</th>
+                    <th style="width: 25%;">البريد الإلكتروني</th>
+                    <th style="width: 15%;">نوع الباقة</th>
+                    <th style="width: 25%;">تاريخ انتهاء صلاحية الـ VIP</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td style="color: var(--text-muted); font-family: monospace;">#{{ user.id }}</td>
+                    <td><b>{{ user.username }}</b> {% if user.is_admin %}<span style="color:var(--primary); font-size:11px; font-weight:bold; margin-right:5px;">[مدير]</span>{% endif %}</td>
+                    <td style="color: #e1e1e6;">{{ user.email }}</td>
+                    <td>
+                        {% if user.subscription == 'vip' %}
+                            <span class="badge badge-vip">VIP Member</span>
+                        {% elif user.subscription == 'pending' %}
+                            <span class="badge badge-pending">قيد المراجعة</span>
+                        {% else %}
+                            <span class="badge badge-free">Free Account</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-family: monospace; font-size: 13px; color: {% if user.subscription == 'vip' %}#fff{% else %}var(--text-muted){% endif %};">
+                        {% if user.expire_date %}
+                            {{ user.expire_date.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            <span style="color: #666;">غير محدد (دائم)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

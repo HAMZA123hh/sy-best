@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من نحن - Sy-Best</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body { 
+            /* خلفية سينمائية عميقة وفخمة متناسقة مع هوية الموقع */
+            background: linear-gradient(rgba(15, 15, 20, 0.85), rgba(8, 8, 12, 0.98)), 
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.8;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* الـ Navbar الزجاجي الأنيق والمطابق للصفحة الرئيسية */
+        .header { 
+            padding: 20px 40px; 
+            background: rgba(10, 10, 12, 0.6); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo { 
+            color: #e50914; 
+            font-size: 28px; 
+            font-weight: 900; 
+            text-decoration: none; 
+            text-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+            transition: all 0.3s ease;
+        }
+        .logo:hover {
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .container { 
+            max-width: 750px; 
+            margin: auto; 
+            padding: 40px 20px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        
+        /* بطاقة عرض المحتوى بتقنية الزجاج المصقول Glassmorphism */
+        .card { 
+            background: rgba(20, 20, 25, 0.6); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 45px 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            transition: border-color 0.4s ease;
+        }
+        
+        .card:hover {
+            border-color: rgba(229, 9, 20, 0.3); /* توهج أحمر خفيف عند حواف البطاقة عند التمرير */
+        }
+
+        h1 { 
+            color: #fff; 
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 25px; 
+            background: linear-gradient(45deg, #fff, #e50914);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        p { 
+            font-size: 16.5px; 
+            color: #cdcdcd; 
+            margin-bottom: 25px; 
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        
+        p strong {
+            color: #e50914;
+            font-weight: 700;
+        }
+
+        /* زر العودة الأنيق بتأثير الهوفر السينمائي */
+        .btn-back { 
+            display: inline-flex; 
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px; 
+            padding: 12px 35px; 
+            background: #e50914; 
+            color: #fff; 
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            font-size: 16px;
+            box-shadow: 0 5px 20px rgba(229, 9, 20, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        
+        .btn-back:hover { 
+            background: #ff0f1a; 
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        .btn-back:active {
+            transform: translateY(-1px);
+        }
+
+        /* روابط التواصل الاجتماعي المعدلة والمشعة */
+        .social-links { 
+            margin-top: 40px; 
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        
+        .social-links a { 
+            color: #a0a0a0; 
+            font-size: 26px; 
+            transition: all 0.3s ease; 
+            display: inline-block;
+        }
+        
+        .social-links a:hover { 
+            color: #e50914; 
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 8px rgba(229, 9, 20, 0.6));
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="/" class="logo">Sy-Best</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1>من نحن</h1>
+            <p>
+                نحن فريق <strong>Sy-Best</strong>، شغفنا هو تقديم تجربة مشاهدة سينمائية لا مثيل لها. 
+                منصتنا توفر لك مكتبة ضخمة من الأفلام والمسلسلات العالمية والعربية بجودة عالية.
+            </p>
+            <p>
+                نعمل باستمرار على تطوير الموقع لنضمن لك السرعة، السهولة، والمحتوى الذي تحبه في مكان واحد. 
+                شكراً لاختيارك منصتنا، ونتمنى لك مشاهدة ممتعة دائماً!
+            </p>
+            
+            <a href="/" class="btn-back">
+                <i class="fa-solid fa-arrow-right"></i>
+                العودة للموقع
+            </a>
+
+            <div class="social-links">
+                <a href="https://t.me/TMX16" target="_blank" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

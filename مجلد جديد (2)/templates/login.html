@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - Sy-Best</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body { 
+            /* خلفية جدارية لصالة عرض سينمائية فخمة وداكنة ومدمجة بتدرج اسود ناعم */
+            background: linear-gradient(rgba(10, 10, 13, 0.75), rgba(5, 5, 8, 0.95)), 
+                        url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            padding-top: 100px !important;
+        }
+
+        /* تصميم البار الاحترافي الشفاف والسينمائي المتناسق والمنعكس للمحتوى خلفه */
+        .main-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 13, 0.6); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: rtl;
+        }
+
+        .nav-right, .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-logo {
+            color: #e50914;
+            font-weight: bold;
+            font-size: 28px;
+            text-decoration: none;
+            text-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+        }
+        .nav-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .nav-item {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s ease;
+        }
+        .nav-item:hover {
+            color: #fff;
+        }
+
+        .nav-item-about {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+        .nav-item-about:hover { 
+            color: #fff; 
+        }
+
+        .user-profile-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .vip-badge-nav {
+            background: linear-gradient(45deg, #ffd700, #ffa500);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-btn {
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-logout-nav {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .btn-logout-nav:hover {
+            background: #e50914;
+            border-color: #e50914;
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.5);
+        }
+
+        .btn-login-nav {
+            background: #e50914;
+            color: #fff;
+            border: 1px solid #e50914;
+            box-shadow: 0 4px 10px rgba(229, 9, 20, 0.2);
+        }
+        .btn-login-nav:hover {
+            background: #b80710;
+            border-color: #b80710;
+        }
+
+        /* صندوق تسجيل الدخول المطور بتقنية التأثير الزجاجي الشفاف Glassmorphism */
+        .box { 
+            background: rgba(15, 15, 20, 0.55) !important; 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            width: 100%;
+            max-width: 400px; 
+            margin: 0 auto; 
+            padding: 40px 35px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        .box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: right;
+            padding-right: 5px;
+        }
+        
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        input { 
+            width: 100%; 
+            padding: 13px 15px; 
+            background: rgba(255, 255, 255, 0.06); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            color: #fff; 
+            border-radius: 6px; 
+            outline: none;
+            font-size: 15px;
+            text-align: right;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus { 
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #e50914;
+            box-shadow: 0 0 12px rgba(229, 9, 20, 0.45);
+        }
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .password-wrapper input {
+            padding-left: 45px;
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            top: 50%;
+            left: 15px; 
+            transform: translateY(-50%);
+            color: #aaa;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .password-wrapper .toggle-password:hover { color: #fff; }
+
+        .form-options {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: -5px;
+            margin-bottom: 25px;
+            padding-right: 5px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b3b3b3;
+            cursor: pointer;
+            font-size: 14px;
+            user-select: none;
+        }
+        
+        .remember-me input {
+            accent-color: #e50914;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+
+        button { 
+            background: #e50914; 
+            color: #fff; 
+            border: none; 
+            width: 100%; 
+            padding: 14px; 
+            font-weight: bold; 
+            font-size: 16px;
+            border-radius: 6px; 
+            cursor: pointer; 
+            box-shadow: 0 4px 12px rgba(229, 9, 20, 0.35);
+            transition: all 0.2s ease;
+        }
+        
+        button:hover { 
+            background: #c40812; 
+            box-shadow: 0 6px 18px rgba(229, 9, 20, 0.55);
+            transform: translateY(-1px);
+        }
+        button:active { transform: scale(0.99); }
+
+        .signup-text {
+            font-size: 14px; 
+            color: #8c8c8c;
+            margin-top: 25px;
+            margin-bottom: 0;
+            text-align: right;
+            padding-right: 5px;
+        }
+        .signup-text a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+        .signup-text a:hover { text-decoration: underline; color: #e50914; }
+
+        .support-container {
+            text-align: center; 
+            margin-top: 20px;
+        }
+        .support-link {
+            color: #8c8c8c; 
+            text-decoration: none; 
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .support-link:hover { 
+            color: #fff; 
+            text-decoration: underline; 
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 140px !important; }
+            .main-navbar { padding: 10px 0; }
+            .nav-container { flex-direction: column; gap: 12px; padding: 0 15px; }
+            .nav-right { width: 100%; justify-content: space-between; }
+            .nav-left { width: 100%; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; gap: 10px; }
+            .nav-links { gap: 12px; }
+            .nav-item { font-size: 13px; }
+            .box { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-navbar">
+        <div class="nav-container">
+            <div class="nav-right">
+                <a href="/" class="nav-logo">Sy-Best</a>
+                <div class="nav-links">
+                    <a href="/" class="nav-item"><i class="fa-solid fa-house"></i> الرئيسية</a>
+                    <a href="/?category=movies" class="nav-item"><i class="fa-solid fa-film"></i> الأفلام</a>
+                    <a href="/?category=series" class="nav-item"><i class="fa-solid fa-tv"></i> المسلسلات</a>
+                </div>
+            </div>
+
+            <div class="nav-left">
+                <div class="user-profile-status">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.subscription == 'vip' %}
+                            <span class="vip-badge-nav"><i class="fa-solid fa-crown"></i> VIP</span>
+                        {% endif %}
+                        <a href="/logout" class="nav-btn btn-logout-nav"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</a>
+                    {% else %}
+                        <a href="/login" class="nav-btn btn-login-nav"><i class="fa-solid fa-right-to-bracket"></i> تسجيل الدخول</a>
+                    {% endif %}
+                </div>
+                <a href="/about" class="nav-item-about"><i class="fa-solid fa-circle-info"></i> من نحن</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="box">
+        <h2>تسجيل الدخول</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="padding: 12px; margin-bottom: 20px; border-radius: 6px; font-size: 14px; text-align: right; direction: rtl; line-height: 1.5;
+                        {% if category == 'success' %} background-color: rgba(31, 177, 65, 0.15); color: #1fb141; border: 1px solid rgba(31, 177, 65, 0.3);
+                        {% else %} background-color: rgba(234, 56, 77, 0.15); color: #ea384d; border: 1px solid rgba(234, 56, 77, 0.3); {% endif %}">
+                        <i class="fa-solid {% if category == 'success' %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}" style="margin-left: 5px;"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <form method="POST">
+            <div class="form-group">
+                <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
+                    <i class="fa-solid fa-eye toggle-password" id="eyeIcon" onclick="togglePasswordVisibility()"></i>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>تذكرني</span>
+                </label>
+            </div>
+            
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+        
+        <p class="signup-text">ليس لديك حساب؟ <a href="/register">اشترك الآن</a></p>
+    </div>
+
+    <div class="support-container">
+        <a href="https://t.me/TMX16" target="_blank" class="support-link">
+            <i class="fa-solid fa-lock"></i>
+            <span>نسيت كلمة المرور؟ تواصل مع الدعم الفني</span>
+        </a>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            var eyeIcon = document.getElementById("eyeIcon");
+            
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+</html>
